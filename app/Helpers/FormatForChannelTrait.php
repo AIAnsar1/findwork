@@ -107,52 +107,41 @@ trait FormatForChannelTrait
         $messageId = $bot->callbackQuery()->message->message_id;
         $model = $mode === 'resume' ? Resume::find($id) : Vacancy::find($id);
 
-        if (!$model) 
-        {
-            $bot->answerCallbackQuery(text: 'Ошибка: Запись не найдена!');
+        if (!$model) {
+            $bot->answerCallbackQuery(text: __('messages.errors.not_found', [], $lang));
             return;
         }
 
-        if ($action === 'approve') 
-        {
-            $newStatus = $mode === 'resume' ? 'active' : 'open';
-            $model->update(['status' => $newStatus]);
-            
+        if ($action === 'approve') {
             // Уведомляем пользователя
             $bot->sendMessage(
-                '🎉 Ваше объявление было одобрено!', 
+                __('messages.moderation.approved_user_notification', [], $lang),
                 chat_id: $model->telegramUser->user_id
             );
-            
             // Публикуем в канал
-            $this->postToChannel($bot, $mode, $model);
-            
+            $this->publishToChannel($bot, $mode, $model);
             // Обновляем сообщение модерации
             $bot->editMessageText(
-                "ОДОБРЕНО И ОПУБЛИКОВАНО (модератор: {$bot->user()->first_name})", 
+                __('messages.moderation.approved_admin_notification', ['moderator' => $bot->user()->first_name], $lang),
                 chat_id: $adminGroupId,
                 message_id: $messageId,
             );
-        }
-
-        if ($action === 'reject') 
-        {
+        } elseif ($action === 'reject') {
+            // Сохраняем контекст для отклонения
             $bot->setUserData('rejecting_item', [
-                'mode' => $mode, 
-                'id' => $id, 
+                'mode' => $mode,
+                'id' => $id,
                 'message_id' => $messageId,
-                'admin_group_id' => $adminGroupId // Добавляем ID админ группы для rejection
-            ], $moderatorId);
-            
-            $bot->sendMessage(
-                "Укажите причину отказа для записи #{$id}", 
-                chat_id: $adminGroupId
-            );
+                'admin_group_id' => $adminGroupId
+            ], $bot->userId());
             
             $bot->editMessageText(
-                "ОЖИДАЕТ ПРИЧИНУ ОТКАЗА (модератор: {$bot->user()->first_name})", 
+                __('messages.moderation.rejection_reason_prompt', ['id' => $id], $lang),
                 chat_id: $adminGroupId,
                 message_id: $messageId,
+            );
+            $bot->answerCallbackQuery(
+                __('messages.moderation.rejection_reason_prompt_short', [], $lang)
             );
         }
     }

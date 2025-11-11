@@ -102,8 +102,8 @@ class CreateResumeService
 
     public function handleFieldEdit(Nutgram $bot, string $mode, string $field)
     {
+        $lang = $this->tgLang($bot);
         if ($field === 'address') {
-            $lang = $this->tgLang($bot);
             $this->showRegionSelection($bot, $mode, $field, $lang, $bot->callbackQuery()->message->message_id);
             return;
         }
@@ -114,10 +114,10 @@ class CreateResumeService
         }
         
         $bot->setUserData('editing_field', $field);
-        $questions = $this->getQuestions($mode);
+        $questions = $this->getQuestions($lang);
         
         $bot->editMessageText(
-            text: $questions[$field] ?? "Введите значение для {$field}:",
+            text: $questions[$field] ?? __('messages.enter_value_for', ['field' => $field], $lang),
             chat_id: $bot->callbackQuery()->message->chat->id,
             message_id: $bot->callbackQuery()->message->message_id
         );
@@ -131,11 +131,7 @@ class CreateResumeService
         $bot->setUserData('partial_address', $regionName);
         $bot->setUserData('editing_field', $field);
 
-        $text = match($lang) {
-            'uz' => "Siz tanladingiz: <b>{$regionName}</b>.\n\nEndi manzilingizning qolgan qismini kiriting (masalan: Chirchiq sh., Navoiy k., 15-uy):",
-            'en' => "You have selected: <b>{$regionName}</b>.\n\nNow enter the rest of your address (e.g., Chirchik city, Navoi st., 15):",
-            default => "Вы выбрали: <b>{$regionName}</b>.\n\nТеперь введите остальную часть адреса (например: г. Чирчик, ул. Навои, д. 15):",
-        };
+        $text = __('messages.address.selected_region', ['regionName' => $regionName], $lang) . "\n\n" . __('messages.address.enter_rest', [], $lang);
 
         $bot->editMessageText(
             text: $text,
@@ -153,12 +149,7 @@ class CreateResumeService
         $bot->setUserData('editing_field', $field);
         $bot->setUserData('manual_input', true);
 
-        $text = match($lang) {
-            'ru' => "✍️ *Введите ваш адрес вручную*\n\nПожалуйста, напишите ваш полный адрес (регион, город, район):",
-            'uz' => "✍️ *Manzilingizni qoʻlda kiriting*\n\nIltimos, toʻliq manzilingizni yozing (viloyat, shahar, tuman):",
-            'en' => "✍️ *Enter your address manually*\n\nPlease write your full address (region, city, district):",
-            default => "✍️ *Enter your address manually*"
-        };
+        $text = __('messages.address.manual_input_prompt', [], $lang);
 
         $bot->sendMessage(
             text: $text,
@@ -176,12 +167,13 @@ class CreateResumeService
 
     public function saveResume(Nutgram $bot, TelegramUser $user)
     {
+        $lang = $this->tgLang($bot);
         $data = $bot->getUserData('data', default: []);
         $menuMessageId = $bot->getUserData('menu_message_id');
 
         // Проверяем обязательные поля
         if (empty($data['position'])) {
-            $bot->sendMessage('❌ Пожалуйста, укажите должность.');
+            $bot->sendMessage(__('messages.errors.position_required', [], $lang));
             return;
         }
 
@@ -205,7 +197,7 @@ class CreateResumeService
         
         if ($menuMessageId) {
             $bot->editMessageText(
-                '✅ Отправлено на модерацию.', 
+                __('messages.moderation.sent', [], $lang), 
                 chat_id: $bot->chatId(), 
                 message_id: $menuMessageId
             );
@@ -219,12 +211,15 @@ class CreateResumeService
         $adminGroupId = config('nutgram.admin_controlls_group_id');
         if (!$adminGroupId) return;
 
-        $text = "Новая запись на модерацию:\n\n";
-        $text .= "<b>Тип:</b> Резюме\n";
+        $lang = $this->tgLang($bot);
+        $questions = $this->getQuestions($lang);
+
+        $text = __('messages.moderation.new_item', [], $lang) . "\n\n";
+        $text .= "<b>" . __('messages.moderation.type', [], $lang) . ":</b> " . __('messages.moderation.type_resume', [], $lang) . "\n";
         
         foreach ($model->toArray() as $key => $value) {
             if ($value && !in_array($key, ['id', 'telegram_user_id', 'created_at', 'updated_at', 'status'])) {
-                $label = $this->getQuestions('resume')[$key] ?? $key;
+                $label = rtrim($questions[$key] ?? $key, ':');
                 $cleanLabel = rtrim($label, ':');
                 $text .= "<b>{$cleanLabel}:</b> {$value}\n";
             }
@@ -232,8 +227,8 @@ class CreateResumeService
 
         $keyboard = InlineKeyboardMarkup::make()
             ->addRow(
-                InlineKeyboardButton::make('✅ Одобрить', callback_data: "mod_approve:resume:{$model->id}"),
-                InlineKeyboardButton::make('❌ Отклонить', callback_data: "mod_reject:resume:{$model->id}")
+                InlineKeyboardButton::make(__('messages.moderation.approve', [], $lang), callback_data: "mod_approve:resume:{$model->id}"),
+                InlineKeyboardButton::make(__('messages.moderation.reject', [], $lang), callback_data: "mod_reject:resume:{$model->id}")
             );
 
         $bot->sendMessage(
@@ -277,20 +272,20 @@ class CreateResumeService
     }
 
 
-    public function getQuestions(string $mode)
+    public function getQuestions(string $lang)
     {
         return [
-            'full_name' => "Полное имя:",
-            'age' => "Возраст:",
-            'address' => "Регион:",
-            'position' => "Должность:",
-            'salary' => "💰 Желаемая зарплата ($):\n*(укажите только число)*",
-            'employment' => "Тип занятости:",
-            'format' => "Формат работы:",
-            'experience_years' => "Опыт работы (лет):",
-            'skills' => "Ключевые навыки:",
-            'about' => "О себе:",
-            'phone' => "Номер телефона:",
+            'full_name' => __('messages.fields.full_name', [], $lang),
+            'age' => __('messages.fields.age', [], $lang),
+            'address' => __('messages.fields.address', [], $lang),
+            'position' => __('messages.fields.position', [], $lang),
+            'salary' => __('messages.fields.salary', [], $lang),
+            'employment' => __('messages.fields.employment', [], $lang),
+            'format' => __('messages.fields.format', [], $lang),
+            'experience_years' => __('messages.fields.experience_years', [], $lang),
+            'skills' => __('messages.fields.skills', [], $lang),
+            'about' => __('messages.fields.about', [], $lang),
+            'phone' => __('messages.fields.phone', [], $lang),
         ];
     }
 }

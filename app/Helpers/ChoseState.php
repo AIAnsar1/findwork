@@ -81,23 +81,17 @@ trait ChoseState
 
     public function getRegionSelectionText(string $lang): string
     {
-        $texts = [
-            'ru' => "🗺️ *Выберите регион*\n\nПожалуйста, выберите ваш регион из списка ниже:",
-            'uz' => "🗺️ *Viloyatingizni tanlang*\n\nIltimos, quyidagi roʻyxatdan viloyatingizni tanlang:",
-            'en' => "🗺️ *Select Region*\n\nPlease select your region from the list below:"
-        ];
-        return $texts[$lang] ?? $texts['ru'];
+        return __('messages.address.select_region', [], $lang);
     }
 
+    public function getManualInputText(string $lang): string
+    {
+        return __('messages.address.enter_manually', [], $lang);
+    }
 
     public function getBackText(string $lang): string
     {
-        return match($lang) {
-            'ru' => "⬅️ Назад",
-            'uz' => "⬅️ Orqaga",
-            'en' => "⬅️ Back",
-            default => "⬅️ Back"
-        };
+        return __('messages.back', [], $lang);
     }
 
     public function formatFullAddress(string $region, ?string $customText = null): string

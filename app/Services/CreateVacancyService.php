@@ -77,15 +77,16 @@ class CreateVacancyService
 
     public function handleFieldEdit(Nutgram $bot, string $mode, string $field)
     {
+        $lang = $this->tgLang($bot);
         if (isset($this->enumFields[$mode][$field])) 
         {
             $this->askEnumOptions($bot, $mode, $field);
             return;
         }
         $bot->setUserData('editing_field', $field);
-        $questions = $this->getQuestions($mode);
+        $questions = $this->getQuestions($lang);
         $bot->editMessageText(
-            text: $questions[$field] ?? "Введите значение для {$field}:",
+            text: $questions[$field] ?? __('messages.enter_value_for', ['field' => $field], $lang),
             chat_id: $bot->callbackQuery()->message->chat->id,
             message_id: $bot->callbackQuery()->message->message_id
         );
@@ -101,6 +102,7 @@ class CreateVacancyService
 
     public function saveVacancy(Nutgram $bot, TelegramUser $user)
     {
+        $lang = $this->tgLang($bot);
         $data = $bot->getUserData('data', default: []);
         $menuMessageId = $bot->getUserData('menu_message_id');
 
@@ -110,7 +112,8 @@ class CreateVacancyService
         $this->sendForModeration($bot, 'vacancy', $vacancy);
         
         if ($menuMessageId) {
-            $bot->editMessageText('✅ Отправлено на модерацию.', 
+            $bot->editMessageText(
+                __('messages.moderation.sent', [], $lang), 
                 chat_id: $bot->chatId(), 
                 message_id: $menuMessageId
             );
@@ -120,22 +123,26 @@ class CreateVacancyService
 
     public function sendForModeration(Nutgram $bot, string $mode, $model)
     {
-        $adminGroupId = config('nutgram.admin_controll_group_id');
+        $adminGroupId = config('nutgram.admin_controlls_group_id');
         if (!$adminGroupId) return;
 
-        $text = "Новая запись на модерацию:\n\n";
-        $text .= "<b>Тип:</b> Вакансия\n";
+        $lang = $this->tgLang($bot);
+        $questions = $this->getQuestions($lang);
+
+        $text = __('messages.moderation.new_item', [], $lang) . "\n\n";
+        $text .= "<b>" . __('messages.moderation.type', [], $lang) . ":</b> " . __('messages.moderation.type_vacancy', [], $lang) . "\n";
 
         foreach ($model->toArray() as $key => $value) 
         {
             if ($value && !in_array($key, ['id', 'telegram_user_id', 'created_at', 'updated_at', 'status'])) 
             {
-                $text .= "<b>{$key}:</b> {$value}\n";
+                $label = rtrim($questions[$key] ?? $key, ':');
+                $text .= "<b>{$label}:</b> {$value}\n";
             }
         }
         $keyboard = InlineKeyboardMarkup::make()->addRow(
-            InlineKeyboardButton::make('✅ Одобрить', callback_data: "mod_approve:vacancy:{$model->id}"),
-            InlineKeyboardButton::make('❌ Отклонить', callback_data: "mod_reject:vacancy:{$model->id}")
+            InlineKeyboardButton::make(__('messages.moderation.approve', [], $lang), callback_data: "mod_approve:vacancy:{$model->id}"),
+            InlineKeyboardButton::make(__('messages.moderation.reject', [], $lang), callback_data: "mod_reject:vacancy:{$model->id}")
         );
 
         $bot->sendMessage($text, 
@@ -183,26 +190,26 @@ class CreateVacancyService
     }
 
 
-    public function getQuestions(string $mode)
+    public function getQuestions(string $lang)
     {
         return [
-            'company' => 'Название компании:',
-            'position' => 'Должность:',
-            'salary' => '💰 Зарплата ($):\n*(укажите только число)*',
-            'experience' => 'Требуемый опыт:',
-            'employment' => 'Тип занятости:',
-            'schedule' => 'График:',
-            'work_hours' => 'Рабочие часы:',
-            'format' => 'Формат работы:',
-            'responsibilities' => 'Обязанности:',
-            'requirements' => 'Требования:',
-            'conditions' => 'Условия:',
-            'benefits' => 'Бонусы:',
-            'contact_name' => 'Контактное лицо:',
-            'contact_phone' => 'Контактный телефон:',
-            'contact_email' => 'Контактный Email:',
-            'contact_telegram' => 'Контактный Telegram:',
-            'address' => 'Адрес:',
+            'company' => __('messages.fields.company', [], $lang),
+            'position' => __('messages.fields.position', [], $lang),
+            'salary' => __('messages.fields.salary', [], $lang),
+            'experience' => __('messages.fields.experience', [], $lang),
+            'employment' => __('messages.fields.employment', [], $lang),
+            'schedule' => __('messages.fields.schedule', [], $lang),
+            'work_hours' => __('messages.fields.work_hours', [], $lang),
+            'format' => __('messages.fields.format', [], $lang),
+            'responsibilities' => __('messages.fields.responsibilities', [], $lang),
+            'requirements' => __('messages.fields.requirements', [], $lang),
+            'conditions' => __('messages.fields.conditions', [], $lang),
+            'benefits' => __('messages.fields.benefits', [], $lang),
+            'contact_name' => __('messages.fields.contact_name', [], $lang),
+            'contact_phone' => __('messages.fields.contact_phone', [], $lang),
+            'contact_email' => __('messages.fields.contact_email', [], $lang),
+            'contact_telegram' => __('messages.fields.contact_telegram', [], $lang),
+            'address' => __('messages.fields.address', [], $lang),
         ];
     }
 }

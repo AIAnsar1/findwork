@@ -20,11 +20,14 @@ trait CreationServiceTrait
 
     public function showCreationMenu(Nutgram $bot, string $mode, ?int $messageId = null)
     {
+        $lang = $this->tgLang($bot);
         $formData = $bot->getUserData('data', default: []);
         $steps = $this->getSteps($mode);
-        $labels = $this->getQuestions($mode);
-        $text = "📋 **" . ($mode === 'resume' ? 'Создание резюме' : 'Создание вакансии') . "**\n\n";
-        $text .= "Заполните поля, нажимая на кнопки. Когда закончите, нажмите 'Сохранить'.\n\n";
+        $labels = $this->getQuestions($lang);
+        
+        $title = $mode === 'resume' ? __('messages.creation.title_resume', [], $lang) : __('messages.creation.title_vacancy', [], $lang);
+        $text = "📋 **{$title}**\n\n";
+        $text .= __('messages.creation.description', [], $lang) . "\n\n";
         $keyboard = InlineKeyboardMarkup::make();
 
         foreach ($steps as $field) {
@@ -38,8 +41,8 @@ trait CreationServiceTrait
         }
 
         $keyboard->addRow(
-            InlineKeyboardButton::make("✅ Сохранить", callback_data: "save:{$mode}"),
-            InlineKeyboardButton::make("⬅️ Назад", callback_data: "back_to_start")
+            InlineKeyboardButton::make(__('messages.save', [], $lang), callback_data: "save:{$mode}"),
+            InlineKeyboardButton::make(__('messages.back', [], $lang), callback_data: "back_to_start")
         );
 
         if ($messageId) {
@@ -62,17 +65,18 @@ trait CreationServiceTrait
 
     public function askEnumOptions(Nutgram $bot, string $mode, string $field)
     {
+        $lang = $this->tgLang($bot);
         $callbackQuery = $bot->callbackQuery();
         $options = $this->getEnumFields()[$mode][$field];
-        $labels = $this->getQuestions($mode);
-        $text = "Выберите один из вариантов для поля `{$labels[$field]}`:";
+        $labels = $this->getQuestions($lang);
+        $text = __('messages.creation.select_option_for', ['field' => $labels[$field]], $lang);
         $keyboard = InlineKeyboardMarkup::make();
 
         foreach ($options as $option) 
         {
             $keyboard->addRow(InlineKeyboardButton::make($option, callback_data: "set_enum:{$mode}:{$field}:{$option}"));
         }
-        $keyboard->addRow(InlineKeyboardButton::make('⬅️ Назад', callback_data: "show_creation_menu:{$mode}"));
+        $keyboard->addRow(InlineKeyboardButton::make(__('messages.back', [], $lang), callback_data: "show_creation_menu:{$mode}"));
 
         $bot->editMessageText(
             text: $text,
