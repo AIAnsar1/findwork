@@ -1,0 +1,45 @@
+<?php 
+
+
+return [
+    'start_message' => "Xush kelibsiz!",
+    'choose_language' => "Tilni tanlang:",
+    'resume' => [
+        'create' => '📝 Rezyume yaratish',
+        'edit'   => '✏️ Rezyumeni o‘zgartirish',
+        'title'          => 'Ish qidiryapman',
+        'full_name'      => 'To‘liq ism',
+        'age'            => 'Yosh',
+        'address'        => 'Shahar, tuman',
+        'salary'         => 'Maosh istagi',
+        'employment'     => 'Bandlik turi',
+        'format'         => 'Ish formati',
+        'experience'     => 'Ish tajribasi',
+        'years'          => 'yil',
+        'skills'         => 'Asosiy ko‘nikmalar',
+        'phone'          => 'Telefon',
+        'about'          => 'O‘zim haqimda',
+        'contact'        => 'Bog‘lanish',
+    ],
+    'vacancy' => [
+        'create' => '📝 Vakansiya yaratish',
+        'edit'   => '✏️ Vakansiyani o‘zgartirish',
+        'title'          => 'Vakansiya',
+        'in'             => 'da',
+        'salary'         => 'Maosh',
+        'experience'     => 'Tajriba',
+        'employment'     => 'Bandlik turi',
+        'schedule'       => 'Ish jadvali',
+        'hours'          => 'soat',
+        'format'         => 'Ish formati',
+        'address'        => 'Manzil',
+        'responsibilities' => 'Vazifalar',
+        'requirements'   => 'Talablar',
+        'conditions'     => 'Sharoit',
+        'benefits'       => 'Imtiyozlar',
+        'apply'          => 'Ariza qoldirish',
+    ],
+    'language' => [
+        'change' => '🌐 Tilni o‘zgartirish',
+    ],
+];

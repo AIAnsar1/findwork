@@ -1,0 +1,45 @@
+<?php 
+
+
+return [
+    'start_message' => "Welcome!",
+    'choose_language' => "Choose language:",
+    'resume' => [
+        'create' => '📝 Create resume',
+        'edit'   => '✏️ Edit resume',
+        'title'          => 'Looking for a job',
+        'full_name'      => 'Full name',
+        'age'            => 'Age',
+        'address'        => 'City, district',
+        'salary'         => 'Desired salary',
+        'employment'     => 'Employment type',
+        'format'         => 'Work format',
+        'experience'     => 'Work experience',
+        'years'          => 'years',
+        'skills'         => 'Key skills',
+        'phone'          => 'Phone',
+        'about'          => 'About me',
+        'contact'        => 'Contact',
+    ],
+    'vacancy' => [
+        'create' => '📝 Create vacancy',
+        'edit'   => '✏️ Edit vacancy',
+        'title'          => 'Vacancy',
+        'in'             => 'in',
+        'salary'         => 'Salary',
+        'experience'     => 'Required experience',
+        'employment'     => 'Employment type',
+        'schedule'       => 'Schedule',
+        'hours'          => 'hours',
+        'format'         => 'Work format',
+        'address'        => 'Address',
+        'responsibilities' => 'Responsibilities',
+        'requirements'   => 'Requirements',
+        'conditions'     => 'Conditions',
+        'benefits'       => 'Benefits',
+        'apply'          => 'Apply',
+    ],
+    'language' => [
+        'change' => '🌐 Change language',
+    ],
+];

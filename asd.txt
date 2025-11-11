@@ -1,0 +1,50 @@
+
+
+
+
+
+php artisan make:model Advertising -mfs
+php artisan make:request StoreRequests/StoreAdvertisingRequest
+php artisan make:request UpdateRequests/UpdateAdvertisingRequest
+
+
+php artisan make:model Channel -m
+php artisan make:request StoreRequests/StoreChannelRequest
+php artisan make:request UpdateRequests/UpdateChannelRequest
+
+
+php artisan make:model Group -m
+php artisan make:request StoreRequests/StoreGroupRequest
+php artisan make:request UpdateRequests/UpdateGroupRequest
+
+
+php artisan make:model Resume -mfs
+php artisan make:request StoreRequests/StoreResumeRequest
+php artisan make:request UpdateRequests/UpdateResumeRequest
+
+
+php artisan make:model Vacancy -mfs
+php artisan make:request StoreRequests/StoreVacancyRequest
+php artisan make:request UpdateRequests/UpdateVacancyRequest
+
+
+php artisan make:model TelegramUser -mfs
+php artisan make:request StoreRequests/StoreTelegramUserRequest
+php artisan make:request UpdateRequests/UpdateTelegramUserRequest
+
+
+php artisan make:model Tag -mfs
+php artisan make:request StoreRequests/StoreTagRequest
+php artisan make:request UpdateRequests/UpdateTagRequest
+
+
+
+php artisan make:migration create_advertising_channel_table
+php artisan make:migration create_advertising_tag_table
+php artisan make:migration create_advertising_group_table
+
+php artisan make:migration create_resume_tag_table
+php artisan make:migration create_vacancy_tag_table
+
+
+
