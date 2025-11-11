@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('contact_phone')->nullable();
             $table->string('contact_email')->nullable();
             $table->string('contact_telegram')->nullable();
-            $table->enum('status', ['open', 'closed'])->default('open');
+            $table->enum('status', ['open', 'closed', 'moderation', 'rejected'])->default('open');
             $table->string('address')->nullable();
             $table->foreignId('telegram_user_id')->constrained('telegram_users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();

@@ -10,11 +10,12 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\{InlineKeyboardMarkup, InlineKeyboa
 
 trait CreationServiceTrait
 {
-    public function startCreation(Nutgram $bot, TelegramUser $user, string $mode)
+    public function startCreation(Nutgram $bot, TelegramUser $user, string $mode, ?int $messageId = null)
     {
         $bot->setUserData('mode', $mode);
         $bot->setUserData('data', []);
-        $this->showCreationMenu($bot, $mode);
+        $bot->setUserData('menu_message_id', $messageId);
+        $this->showCreationMenu($bot, $mode, $messageId);
     }
 
     public function showCreationMenu(Nutgram $bot, string $mode, ?int $messageId = null)

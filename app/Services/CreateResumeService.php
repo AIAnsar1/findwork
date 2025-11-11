@@ -21,10 +21,10 @@ class CreateResumeService
         ],
     ];
 
-    public function handle(Nutgram $bot, TelegramUser $user, string $callbackData)
+    public function handle(Nutgram $bot, TelegramUser $user, string $callbackData, ?int $messageId = null)
     {
-        if ($callbackData === 'create_resume') {
-            $this->startCreation($bot, $user, 'resume');
+        if ($callbackData === 'resume:create') {
+            $this->startCreation($bot, $user, 'resume', $messageId);
             return;
         }
 
@@ -72,13 +72,18 @@ class CreateResumeService
 
         if ($editingField && $mode === 'resume' && $menuMessageId) {
             $data = $bot->getUserData('data', default: []);
-            
-            if ($manualInput && $editingField === 'address') {
-                // Ручной ввод полного адреса
+            $partialAddress = $bot->getUserData('partial_address');
+
+            if ($editingField === 'address' && $partialAddress) {
+                // Step 2 of address input: combine region and manual input
+                $data[$editingField] = $partialAddress . ', ' . $bot->message()->text;
+                $bot->setUserData('partial_address', null);
+            } elseif ($manualInput && $editingField === 'address') {
+                // Manual input for the full address from the start
                 $data[$editingField] = $bot->message()->text;
                 $bot->setUserData('manual_input', false);
             } else {
-                // Обычный ввод
+                // Default input for all other fields
                 $data[$editingField] = $bot->message()->text;
             }
 
@@ -93,7 +98,6 @@ class CreateResumeService
 
             $this->showCreationMenu($bot, 'resume', $menuMessageId);
         }
-        $bot->answerCallbackQuery();
     }
 
     public function handleFieldEdit(Nutgram $bot, string $mode, string $field)
@@ -121,10 +125,24 @@ class CreateResumeService
 
     public function handleRegionSelection(Nutgram $bot, string $region, string $field)
     {
-        $data = $bot->getUserData('data', default: []);
-        $data[$field] = $this->getRegionName($region, 'ru'); // Сохраняем только название региона
-        $bot->setUserData('data', $data);
-        $this->showCreationMenu($bot, 'resume', $bot->callbackQuery()->message->message_id);
+        $lang = $this->tgLang($bot);
+        $regionName = $this->getRegionName($region, $lang);
+
+        $bot->setUserData('partial_address', $regionName);
+        $bot->setUserData('editing_field', $field);
+
+        $text = match($lang) {
+            'uz' => "Siz tanladingiz: <b>{$regionName}</b>.\n\nEndi manzilingizning qolgan qismini kiriting (masalan: Chirchiq sh., Navoiy k., 15-uy):",
+            'en' => "You have selected: <b>{$regionName}</b>.\n\nNow enter the rest of your address (e.g., Chirchik city, Navoi st., 15):",
+            default => "Вы выбрали: <b>{$regionName}</b>.\n\nТеперь введите остальную часть адреса (например: г. Чирчик, ул. Навои, д. 15):",
+        };
+
+        $bot->editMessageText(
+            text: $text,
+            chat_id: $bot->callbackQuery()->message->chat->id,
+            message_id: $bot->callbackQuery()->message->message_id,
+            parse_mode: ParseMode::HTML
+        );
     }
 
 

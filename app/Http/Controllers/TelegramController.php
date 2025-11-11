@@ -159,9 +159,9 @@ class TelegramController extends Controller
             $messageId = $bot->getUserData('main_message_id');
             
             if ($callbackData === "resume:create") {
-                return $this->createResumeService->handle($bot, $user, $messageId);
+                return $this->createResumeService->handle($bot, $user, $callbackData, $messageId);
             } elseif ($callbackData === "vacancy:create") {
-                return $this->createVacancyService->handle($bot, $user, $messageId);
+                return $this->createVacancyService->handle($bot, $user, $callbackData, $messageId);
             } elseif ($callbackData === "resume:edit") {
                 return $this->resumeListsService->handle($bot, $user, $messageId);
             } elseif ($callbackData === "vacancy:edit") {

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->json('work_experience')->nullable(); 
             $table->string('phone')->nullable();
             $table->string('telegram')->nullable();
-            $table->enum('status', ['active', 'hidden'])->default('active');
+            $table->enum('status', ['active', 'hidden', 'moderation', 'rejected'])->default('active');
             $table->text('about')->nullable();
             $table->foreignId('telegram_user_id')->constrained('telegram_users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();

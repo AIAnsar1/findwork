@@ -19,11 +19,11 @@ class CreateVacancyService
         'format' => ['office', 'remote', 'hybrid'],
     ];
 
-    public function handle(Nutgram $bot, TelegramUser $user, string $callbackData)
+    public function handle(Nutgram $bot, TelegramUser $user, string $callbackData, ?int $messageId = null)
     {
-        if ($callbackData === 'create_vacancy')
+        if ($callbackData === 'vacancy:create')
         {
-            $this->startCreation($bot, $user, 'vacancy');
+            $this->startCreation($bot, $user, 'vacancy', $messageId);
             return;
         }
 

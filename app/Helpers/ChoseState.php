@@ -66,13 +66,6 @@ trait ChoseState
 
         $keyboard->addRow(
             InlineKeyboardButton::make(
-                $this->getManualInputText($lang),
-                callback_data: "manual_input:{$mode}:{$field}"
-            )
-        );
-
-        $keyboard->addRow(
-            InlineKeyboardButton::make(
                 $this->getBackText($lang),
                 callback_data: "show_creation_menu:{$mode}"
             )
@@ -96,15 +89,6 @@ trait ChoseState
         return $texts[$lang] ?? $texts['ru'];
     }
 
-    public function getManualInputText(string $lang): string
-    {
-        return match($lang) {
-            'ru' => "✏️ Ввести вручную",
-            'uz' => "✏️ Qoʻlda kiritish", 
-            'en' => "✏️ Enter manually",
-            default => "✏️ Enter manually"
-        };
-    }
 
     public function getBackText(string $lang): string
     {
