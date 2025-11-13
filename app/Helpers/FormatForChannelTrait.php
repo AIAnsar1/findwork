@@ -47,9 +47,9 @@ trait FormatForChannelTrait
         $lang = $this->tgLang($bot);
 
         $text  = "<b>".__('messages.vacancy.title', [], $lang)." {$vacancy->position} " .__('messages.vacancy.in', [], $lang)." {$vacancy->company}</b>\n\n";
-        $text .= "💰 <b>".__('messages.vacancy.salary', [], $lang).":</b>\n {$vacancy->salary}$\n";
-        $text .= "📈 <b>".__('messages.vacancy.experience', [], $lang).":</b>\n {$vacancy->experience}\n";
-        $text .= "🗓️ <b>".__('messages.vacancy.employment', [], $lang).":</b>\n {$vacancy->employment}\n";
+        $text .= "💰 <b>".__('messages.vacancy.salary', [], $lang).":</b> {$vacancy->salary}$\n";
+        $text .= "📈 <b>".__('messages.vacancy.experience', [], $lang).":</b> {$vacancy->experience}\n";
+        $text .= "🗓️ <b>".__('messages.vacancy.employment', [], $lang).":</b> {$vacancy->employment}\n";
         $text .= "⏰ <b>".__('messages.vacancy.schedule', [], $lang).":</b>\n {$vacancy->schedule} ({$vacancy->work_hours} ". __('messages.vacancy.hours', [], $lang).")\n";
         $text .= "🖥️ <b>".__('messages.vacancy.format', [], $lang).":</b>\n {$vacancy->format}\n";
         $text .= "📍 <b>".__('messages.vacancy.address', [], $lang).":</b>\n {$vacancy->address}\n\n";
@@ -119,7 +119,7 @@ trait FormatForChannelTrait
                 chat_id: $model->telegramUser->user_id
             );
             // Публикуем в канал
-            $this->publishToChannel($bot, $mode, $model);
+            $this->postToChannel($bot, $mode, $model, $lang);
             // Обновляем сообщение модерации
             $bot->editMessageText(
                 __('messages.moderation.approved_admin_notification', ['moderator' => $bot->user()->first_name], $lang),

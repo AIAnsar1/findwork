@@ -54,6 +54,7 @@ Telegram::onCallbackQueryData('edit_resume:{id}', [TelegramController::class, 'h
 Telegram::onCallbackQueryData('delete_resume:{id}', [TelegramController::class, 'handleCallbacks']);
 Telegram::onCallbackQueryData('confirm_delete_resume:{id}', [TelegramController::class, 'handleCallbacks']);
 Telegram::onCallbackQueryData('toggle_resume_status:{id}', [TelegramController::class, 'handleCallbacks']);
+Telegram::onCallbackQueryData('toggle_auto_posting_resume:{id}', [TelegramController::class, 'handleCallbacks']);
 
 // Просмотр записей (вакансии)
 Telegram::onCallbackQueryData('view_vacancies', [TelegramController::class, 'handleCallbacks']);
@@ -62,6 +63,7 @@ Telegram::onCallbackQueryData('edit_vacancy:{id}', [TelegramController::class, '
 Telegram::onCallbackQueryData('delete_vacancy:{id}', [TelegramController::class, 'handleCallbacks']);
 Telegram::onCallbackQueryData('confirm_delete_vacancy:{id}', [TelegramController::class, 'handleCallbacks']);
 Telegram::onCallbackQueryData('toggle_vacancy_status:{id}', [TelegramController::class, 'handleCallbacks']);
+Telegram::onCallbackQueryData('toggle_auto_posting_vacancy:{id}', [TelegramController::class, 'handleCallbacks']);
 
 // Навигация
 Telegram::onCallbackQueryData('back_to_start', [TelegramController::class, 'start']);

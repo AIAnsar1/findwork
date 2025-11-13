@@ -59,6 +59,19 @@ class VacancyListService
             $this->toggleStatus($bot, (int)$vacancyId, $messageId);
             return;
         }
+
+        if (str_starts_with($callbackData, 'toggle_auto_posting_vacancy:')) {
+            [, $vacancyId] = explode(':', $callbackData);
+            $this->toggleAutoPosting($bot, (int)$vacancyId, $messageId);
+            return;
+        }
+    }
+
+    public function toggleAutoPosting(Nutgram $bot, int $vacancyId, int $messageId)
+    {
+        $vacancy = Vacancy::findOrFail($vacancyId);
+        $vacancy->update(['auto_posting' => !$vacancy->auto_posting]);
+        $this->showVacancyDetails($bot, $vacancyId, $messageId);
     }
 
     public function showVacancyList(Nutgram $bot, TelegramUser $user, int $messageId)
@@ -107,6 +120,8 @@ class VacancyListService
         $statusText = __('messages.statuses.' . $vacancy->status, [], $lang);
         $text .= "\n<b>" . __('messages.status', [], $lang) . ":</b> {$statusText}";
 
+        $autoPostingText = $vacancy->auto_posting ? __('messages.auto_posting_on', [], $lang) : __('messages.auto_posting_off', [], $lang);
+
         $keyboard = InlineKeyboardMarkup::make()
             ->addRow(
                 InlineKeyboardButton::make(__('messages.edit', [], $lang), callback_data: "edit_vacancy:{$vacancy->id}"),
@@ -115,6 +130,10 @@ class VacancyListService
             ->addRow(InlineKeyboardButton::make(
                 $vacancy->status === 'open' ? __('messages.hide', [], $lang) : __('messages.show', [], $lang),
                 callback_data: "toggle_vacancy_status:{$vacancy->id}"
+            ))
+            ->addRow(InlineKeyboardButton::make(
+                $autoPostingText,
+                callback_data: "toggle_auto_posting_vacancy:{$vacancy->id}"
             ))
             ->addRow(InlineKeyboardButton::make(__('messages.back', [], $lang), callback_data: 'vacancy:edit'));
 

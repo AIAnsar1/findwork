@@ -61,8 +61,21 @@ class ResumeListsService
             $this->toggleStatus($bot, (int)$resumeId, $messageId);
             return;
         }
+
+        if (str_starts_with($callbackData, 'toggle_auto_posting_resume:')) {
+            [, $resumeId] = explode(':', $callbackData);
+            $this->toggleAutoPosting($bot, (int)$resumeId, $messageId);
+            return;
+        }
     }
 
+    public function toggleAutoPosting(Nutgram $bot, int $resumeId, int $messageId)
+    {
+        $resume = Resume::findOrFail($resumeId);
+        $resume->update(['auto_posting' => !$resume->auto_posting]);
+        $this->showResumeDetails($bot, $resumeId, $messageId);
+    }
+    
     public function showResumeList(Nutgram $bot, TelegramUser $user, int $messageId)
     {
         $lang = $this->tgLang($bot);
@@ -110,6 +123,8 @@ class ResumeListsService
         $statusText = __('messages.statuses.' . $resume->status, [], $lang);
         $text .= "\n<b>" . __('messages.status', [], $lang) . ":</b> {$statusText}";
 
+        $autoPostingText = $resume->auto_posting ? __('messages.auto_posting_on', [], $lang) : __('messages.auto_posting_off', [], $lang);
+
         $keyboard = InlineKeyboardMarkup::make()
             ->addRow(
                 InlineKeyboardButton::make(__('messages.edit', [], $lang), callback_data: "edit_resume:{$resume->id}"),
@@ -118,6 +133,10 @@ class ResumeListsService
             ->addRow(InlineKeyboardButton::make(
                 $resume->status === 'active' ? __('messages.hide', [], $lang) : __('messages.show', [], $lang),
                 callback_data: "toggle_resume_status:{$resume->id}"
+            ))
+            ->addRow(InlineKeyboardButton::make(
+                $autoPostingText,
+                callback_data: "toggle_auto_posting_resume:{$resume->id}"
             ))
             ->addRow(InlineKeyboardButton::make(__('messages.back', [], $lang), callback_data: 'resume:edit'));
 

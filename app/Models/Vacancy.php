@@ -27,14 +27,17 @@ class Vacancy extends Model
         'work_hours',
         'format',
         'responsibilities',
+        'auto_posting',
         'requirements',
         'conditions',
         'benefits',
         'contact_name',
         'contact_phone',
+        'last_posted_at',
         'contact_email',
         'contact_telegram',
         'status',
+        'position',
         'address',
         'telegram_user_id'
     ];
@@ -46,7 +49,9 @@ class Vacancy extends Model
      */
     protected $casts = [
         'salary' => 'integer',
+        'auto_posting' => 'boolean',
         'created_at' => 'datetime',
+        'last_posted_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
 

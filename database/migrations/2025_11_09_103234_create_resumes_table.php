@@ -16,14 +16,15 @@ return new class extends Migration
             $table->string('full_name')->nullable();
             $table->integer('age')->nullable();
             $table->string('address')->nullable();
-            $table->string('position');   
+            $table->string('position')->nullable();   
             $table->integer('salary')->nullable();
             $table->enum('employment', ['full', 'part', 'contract', 'temporary', 'intern'])->default('full');
-            $table->string('schedule')->nullable();  
             $table->enum('format', ['office', 'remote', 'hybrid'])->default('office');
             $table->integer('experience_years')->nullable();
             $table->text('skills')->nullable();
             $table->json('work_experience')->nullable(); 
+            $table->boolean('auto_posting')->default(true);
+            $table->timestamp('last_posted_at')->nullable();
             $table->string('phone')->nullable();
             $table->string('telegram')->nullable();
             $table->enum('status', ['active', 'hidden', 'moderation', 'rejected'])->default('active');

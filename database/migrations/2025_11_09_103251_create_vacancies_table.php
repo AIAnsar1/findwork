@@ -24,6 +24,9 @@ return new class extends Migration
             $table->text('requirements')->nullable();
             $table->text('conditions')->nullable();
             $table->text('benefits')->nullable();
+            $table->boolean('auto_posting')->default(true);
+            $table->timestamp('last_posted_at')->nullable();
+            $table->string('position')->nullable();
             $table->string('contact_name')->nullable();
             $table->string('contact_phone')->nullable();
             $table->string('contact_email')->nullable();

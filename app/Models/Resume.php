@@ -31,7 +31,9 @@ class Resume extends Model
         'format',
         'experience_years',
         'skills',
+        'last_posted_at',
         'work_experience',
+        'auto_posting',
         'phone',
         'telegram',
         'status',
@@ -49,8 +51,10 @@ class Resume extends Model
         'salary' => 'integer',
         'experience_years' => 'integer',
         'work_experience' => 'array',
+        'last_posted_at' => 'datetime',
+        'auto_posting' => 'boolean',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime'  
     ];
 
 

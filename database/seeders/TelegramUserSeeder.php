@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TelegramUser;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class TelegramUserSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        TelegramUser::factory(5)->create();
     }
 }

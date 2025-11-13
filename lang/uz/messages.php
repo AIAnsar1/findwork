@@ -13,6 +13,8 @@ return [
     'friend' => "do'st",
     'status' => "Holat",
     'enter_value_for' => ":field uchun qiymat kiriting",
+    'auto_posting_on' => "🔁 Avto-joylash: YOQILGAN",
+    'auto_posting_off' => "🔁 Avto-joylash: O'CHIRILGAN",
 
     'language' => [
         'change' => "🌍 Tilni o'zgartirish",
@@ -40,6 +42,16 @@ return [
         'deleted' => "Vakansiya o'chirildi.",
         'status_changed' => "Vakansiya holati o'zgartirildi.",
         'confirm_delete_text' => "Haqiqatan ham ushbu vakansiyani oʻchirib tashlamoqchimisiz? Bu amalni bekor qilib boʻlmaydi.",
+        'schedule' => "Ish jadvali",
+        'hours' => "soat",
+        'format' => "Ish formati",
+        'address' => "Manzil",
+        'responsibilities' => "Majburiyatlar",
+        'requirements' => "Talablar",
+        'conditions' => "Shartlar",
+        'benefits' => "Bonuslar",
+        'title' => "Vakansiya",
+        'in' => "kompaniyasi",
     ],
 
     'address' => [
