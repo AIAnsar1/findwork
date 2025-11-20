@@ -31,7 +31,7 @@ class Advertising extends Model
         'link',
         'views',
         'reactions_count'
-    ];  
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -64,15 +64,7 @@ class Advertising extends Model
     public $cacheDriver = 'redis';
 
 
-    public function channel(): BelongsTo
-    {
-        return $this->belongsTo(Channel::class);
-    }
 
-    public function group(): BelongsTo
-    {
-        return $this->belongsTo(Group::class);
-    }
 
     public function tags(): BelongsToMany
     {

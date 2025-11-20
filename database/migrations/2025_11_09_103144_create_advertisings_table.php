@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('link')->nullable();
             $table->unsignedBigInteger('views')->default(0);
             $table->unsignedBigInteger('reactions_count')->default(0);
-            $table->foreignId('channel_id')->constrained('channels')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

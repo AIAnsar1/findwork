@@ -24,22 +24,13 @@ trait FormatForChannelTrait
         $text .= "🖥️ <b>".__('messages.resume.format', [], $lang).":</b>\n {$resume->format}\n";
         $text .= "📈 <b>".__('messages.resume.experience', [], $lang).":</b> {$resume->experience_years} ". __('messages.resume.years', [], $lang)."\n";
         $text .= "🛠️ <b>".__('messages.resume.skills', [], $lang).":</b>\n {$resume->skills}\n";
-        $text .= "📞 <b>".__('messages.resume.phone', [], $lang).":</b>\n {$resume->phone}\n\n";
-        $text .= "📝 <b>".__('messages.resume.about', [], $lang).":</b>\n {$resume->about}\n";
+        $text .= "📞 <b>".__('messages.resume.phone', [], $lang).":</b>\n {$resume->phone}\n";
+        $text .= "📞 <b>".__('messages.resume.telegtram', [], $lang).":</b>\n @{$resume->telegramUser->username}\n\n";
+        $text .= "📝 <b>".__('messages.resume.about', [], locale: $lang).":</b>\n {$resume->about}\n";
         $text .= "\n\n💼 <a href=\"https://t.me/HeadHuntuz\">HeadHunt Uz</a>";
 
-        $keyboard = null;
-        
-        if ($resume->telegramUser->username) 
-        {
-            $keyboard = InlineKeyboardMarkup::make()->addRow(
-                InlineKeyboardButton::make(
-                    text: __('messages.resume.contact', [], $lang), 
-                    url: "https://t.me/{$resume->telegramUser->username}"
-                )
-            );
-        }
-        return ['text' => $text, 'keyboard' => $keyboard];
+
+        return $text;
     }
 
     public function formatVacancyForChannel(Vacancy $vacancy, Nutgram $bot)
@@ -52,56 +43,45 @@ trait FormatForChannelTrait
         $text .= "🗓️ <b>".__('messages.vacancy.employment', [], $lang).":</b> {$vacancy->employment}\n";
         $text .= "⏰ <b>".__('messages.vacancy.schedule', [], $lang).":</b>\n {$vacancy->schedule} ({$vacancy->work_hours} ". __('messages.vacancy.hours', [], $lang).")\n";
         $text .= "🖥️ <b>".__('messages.vacancy.format', [], $lang).":</b>\n {$vacancy->format}\n";
-        $text .= "📍 <b>".__('messages.vacancy.address', [], $lang).":</b>\n {$vacancy->address}\n\n";
+        $text .= "📍 <b>".__('messages.vacancy.address', [], $lang).":</b>\n {$vacancy->address}\n";
+        $text .= "📍 <b>".__('messages.vacancy.telegram', [], $lang).":</b>\n @{$vacancy->telegramUser->username}\n\n";
         $text .= "📋 <b>".__('messages.vacancy.responsibilities', [], $lang).":</b>\n{$vacancy->responsibilities}\n\n";
         $text .= "✅ <b>".__('messages.vacancy.requirements', [], $lang).":</b>\n{$vacancy->requirements}\n\n";
         $text .= "🎁 <b>".__('messages.vacancy.conditions', [], $lang).":</b>\n{$vacancy->conditions}\n{$vacancy->benefits}\n";
         $text .= "\n\n💼 <a href=\"https://t.me/HeadHuntuz\">HeadHunt Uz</a>";
 
-        $keyboard = null;
-
-        if ($vacancy->contact_telegram) 
-        {
-             $keyboard = InlineKeyboardMarkup::make()->addRow(
-                InlineKeyboardButton::make(
-                    text: __('messages.vacancy.apply', [], $lang), 
-                    url: "https://t.me/{$vacancy->contact_telegram}"
-                )
-            );
-        }
-        return ['text' => $text, 'keyboard' => $keyboard];
+        return $text;
     }
 
     public function postToChannel(Nutgram $bot, string $mode, $model)
     {
         $channelId = config('nutgram.telegram_channel_id');
 
-        if (!$channelId) 
+        if (!$channelId)
         {
             return;
         }
 
-        if ($mode === 'resume') 
+        if ($mode === 'resume')
         {
             $payload = $this->formatResumeForChannel($model, $bot);
-        } 
-        else 
+        }
+        else
         {
             $payload = $this->formatVacancyForChannel($model, $bot);
         }
-        
+
         $bot->sendMessage(
-            text: $payload['text'], 
+            text: $payload,
             chat_id: $channelId,
             parse_mode: 'HTML',
-            reply_markup: $payload['keyboard'],
         );
     }
 
     public function handleModeration(Nutgram $bot, string $mode, int $id, string $action)
     {
         $lang = $this->tgLang($bot); // Используем переданный $bot, а не $this->bot
-        
+
         $moderatorId = $bot->userId();
         $adminGroupId = config('nutgram.admin_controlls_group_id'); // Убрал лишний параметр
         $messageId = $bot->callbackQuery()->message->message_id;
@@ -134,7 +114,7 @@ trait FormatForChannelTrait
                 'message_id' => $messageId,
                 'admin_group_id' => $adminGroupId
             ], $bot->userId());
-            
+
             $bot->editMessageText(
                 __('messages.moderation.rejection_reason_prompt', ['id' => $id], $lang),
                 chat_id: $adminGroupId,

@@ -29,6 +29,20 @@ return [
         'deleted' => "🗑️ Resume deleted.",
         'status_changed' => "🔄 Resume status updated.",
         'confirm_delete_text' => "⚠️ Are you sure you want to delete this resume? This action cannot be undone.",
+
+        'full_name'   => "👤 Full Name",
+        'title'   => "Position ",
+            'age'         => "🎂 Age",
+            'address'     => "📍 Address",
+            'salary'      => "💰 Salary",
+            'employment'  => "🗓️ Employment Type",
+            'format'      => "🖥️ Work Format",
+            'experience'  => "📈 Experience",
+            'years'       => "year(s)",
+            'skills'      => "🛠️ Skills",
+            'phone'       => "📞 Phone",
+            'telegram' => '👤 Telegram',
+            'about'       => "📝 About",
     ],
 
     'vacancy' => [
@@ -50,6 +64,26 @@ return [
         'benefits' => "Benefits",
         'title' => "Vacancy",
         'in' => "at",
+        'salary'           => "💰 Salary",
+            'experience'       => "📈 Experience",
+            'employment'       => "🗓️ Employment Type",
+            'schedule'         => "⏰ Work Schedule",
+            'hours'            => "hours",
+            'format'           => "🖥️ Work Format",
+            'address'          => "📍 Address",
+            'telegram'          => "👤 Telegram",
+            'responsibilities' => "📋 Responsibilities",
+            'requirements'     => "✅ Requirements",
+            'conditions'       => "🎁 Conditions",
+            'benefits'         => "🏆 Benefits",
+                    'company'        => "🏢 Company",
+            'position'       => "🎯 Position",
+            'work_hours'     => "⏱️ Working Hours",
+            'contact_phone'  => "📞 Contact Phone",
+            'contact_email'  => "✉️ Contact Email",
+
+        
+        
     ],
 
     'address' => [

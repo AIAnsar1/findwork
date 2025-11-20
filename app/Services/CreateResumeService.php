@@ -275,17 +275,17 @@ class CreateResumeService
     public function getQuestions(string $lang)
     {
         return [
-            'full_name' => __('messages.fields.full_name', [], $lang),
-            'age' => __('messages.fields.age', [], $lang),
-            'address' => __('messages.fields.address', [], $lang),
-            'position' => __('messages.fields.position', [], $lang),
-            'salary' => __('messages.fields.salary', [], $lang),
-            'employment' => __('messages.fields.employment', [], $lang),
-            'format' => __('messages.fields.format', [], $lang),
-            'experience_years' => __('messages.fields.experience_years', [], $lang),
-            'skills' => __('messages.fields.skills', [], $lang),
-            'about' => __('messages.fields.about', [], $lang),
-            'phone' => __('messages.fields.phone', [], $lang),
+            'full_name' => __('messages.resume.full_name', [], $lang),
+            'age' => __('messages.resume.age', [], $lang),
+            'address' => __('messages.resume.address', [], $lang),
+            'position' => __('messages.resume.position', [], $lang),
+            'salary' => __('messages.resume.salary', [], $lang),
+            'employment' => __('messages.resume.employment', [], $lang),
+            'format' => __('messages.resume.format', [], $lang),
+            'experience_years' => __('messages.resume.experience_years', [], $lang),
+            'skills' => __('messages.resume.skills', [], $lang),
+            'about' => __('messages.resume.about', [], $lang),
+            'phone' => __('messages.resume.phone', [], $lang),
         ];
     }
 }

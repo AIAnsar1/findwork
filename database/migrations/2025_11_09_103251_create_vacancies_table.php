@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('vacancies', function (Blueprint $table) {
             $table->id();
             $table->string('company')->nullable();
-            $table->integer('salary')->nullable();
+            $table->string('salary')->nullable();
             $table->string('experience')->nullable(); 
             $table->enum('employment', ['full','part', 'contract','temporary','intern' ])->default('full');
             $table->string('schedule')->nullable(); 

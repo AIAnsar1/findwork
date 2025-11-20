@@ -31,6 +31,20 @@ return [
         'deleted' => "Rezyume o'chirildi.",
         'status_changed' => "Rezyume holati o'zgartirildi.",
         'confirm_delete_text' => "Haqiqatan ham ushbu rezyumeni oʻchirib tashlamoqchimisiz? Bu amalni bekor qilib boʻlmaydi.",
+
+        'full_name'   => "👤 To‘liq ism",
+        'title'   => "Lavozim  ",
+            'age'         => "🎂 Yosh",
+            'address'     => "📍 Manzil",
+            'salary'      => "💰 Maosh",
+            'employment'  => "🗓️ Bandlik turi",
+            'format'      => "🖥️ Ish formati",
+            'experience'  => "📈 Tajriba",
+            'years'       => "yil",
+            'skills'      => "🛠️ Ko‘nikmalar",
+            'phone'       => "📞 Telefon",
+            'telegram'          => "👤 Telegram",
+            'about'       => "📝 O‘zingiz haqingizda",
     ],
 
     'vacancy' => [
@@ -50,8 +64,25 @@ return [
         'requirements' => "Talablar",
         'conditions' => "Shartlar",
         'benefits' => "Bonuslar",
-        'title' => "Vakansiya",
-        'in' => "kompaniyasi",
+       'title'            => "📌 Vakansiya",
+            'in'               => "da",
+            'salary'           => "💰 Maosh",
+            'experience'       => "📈 Tajriba",
+            'employment'       => "🗓️ Bandlik turi",
+            'schedule'         => "⏰ Ish jadvali",
+            'hours'            => "soat",
+            'format'           => "🖥️ Ish formati",
+            'address'          => "📍 Manzil",
+            'telegram'          => "👤 Telegram",
+            'responsibilities' => "📋 Majburiyatlar",
+            'requirements'     => "✅ Talablar",
+            'conditions'       => "🎁 Shartlar",
+            'benefits'         => "🏆 Imtiyozlar",
+            'company'        => "🏢 Kompaniya",
+            'position'       => "🎯 Lavozim",
+            'work_hours'     => "⏱️ Ish vaqti",
+            'contact_phone'  => "📞 Aloqa uchun telefon",
+            'contact_email'  => "✉️ Elektron pochta",
     ],
 
     'address' => [
@@ -118,7 +149,7 @@ return [
         'contact_email' => 'Bogʻlanish uchun Email:',
         'contact_telegram' => 'Bogʻlanish uchun Telegram:',
     ],
-    
+
     'statuses' => [
         'active' => 'Faol',
         'hidden' => 'Yashirin',
