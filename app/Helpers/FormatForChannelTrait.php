@@ -15,17 +15,18 @@ trait FormatForChannelTrait
     {
         $lang = $this->tgLang($bot);
 
-        $text  = "<b>".__('messages.resume.title', [], $lang).": {$resume->position}</b>\n\n";
-        $text .= "👤 <b>".__('messages.resume.full_name', [], $lang).":</b>\n {$resume->full_name}\n";
-        $text .= "🎂 <b>".__('messages.resume.age', [], $lang).":</b>\n {$resume->age}\n";
-        $text .= "📍 <b>".__('messages.resume.address', [], $lang).":</b>\n {$resume->address}\n";
-        $text .= "💰 <b>".__('messages.resume.salary', [], $lang).":</b>\n {$resume->salary}$\n";
+        $text = "<b>".__('messages.resume.resume', [], $lang). "</b>\n\n";
+        $text .= "<b>".__('messages.resume.title', [], $lang)."{$resume->position}</b>\n\n";
+        $text .= "👤 <b>".__('messages.resume.full_name', [], $lang).":</b> {$resume->full_name}\n";
+        $text .= "🎂 <b>".__('messages.resume.age', [], $lang).":</b> {$resume->age}\n";
+        $text .= "📍 <b>".__('messages.resume.address', [], $lang).":</b> {$resume->address}\n";
+        $text .= "💰 <b>".__('messages.resume.salary', [], $lang).":</b> {$resume->salary} $ \n";
         $text .= "🗓️ <b>".__('messages.resume.employment', [], $lang).":</b>\n {$resume->employment}\n";
-        $text .= "🖥️ <b>".__('messages.resume.format', [], $lang).":</b>\n {$resume->format}\n";
+        $text .= "🖥️ <b>".__('messages.resume.format', [], $lang).":</b> {$resume->format}\n";
         $text .= "📈 <b>".__('messages.resume.experience', [], $lang).":</b> {$resume->experience_years} ". __('messages.resume.years', [], $lang)."\n";
         $text .= "🛠️ <b>".__('messages.resume.skills', [], $lang).":</b>\n {$resume->skills}\n";
-        $text .= "📞 <b>".__('messages.resume.phone', [], $lang).":</b>\n {$resume->phone}\n";
-        $text .= "📞 <b>".__('messages.resume.telegtram', [], $lang).":</b>\n @{$resume->telegramUser->username}\n\n";
+        $text .= "📞 <b>".__('messages.resume.phone', [], $lang).":</b> {$resume->phone}\n";
+        $text .= "📞 <b>".__('messages.resume.telegram', [], $lang).":</b> @{$resume->telegramUser->username}\n\n";
         $text .= "📝 <b>".__('messages.resume.about', [], locale: $lang).":</b>\n {$resume->about}\n";
         $text .= "\n\n💼 <a href=\"https://t.me/HeadHuntuz\">HeadHunt Uz</a>";
 
@@ -41,10 +42,10 @@ trait FormatForChannelTrait
         $text .= "💰 <b>".__('messages.vacancy.salary', [], $lang).":</b> {$vacancy->salary}$\n";
         $text .= "📈 <b>".__('messages.vacancy.experience', [], $lang).":</b> {$vacancy->experience}\n";
         $text .= "🗓️ <b>".__('messages.vacancy.employment', [], $lang).":</b> {$vacancy->employment}\n";
-        $text .= "⏰ <b>".__('messages.vacancy.schedule', [], $lang).":</b>\n {$vacancy->schedule} ({$vacancy->work_hours} ". __('messages.vacancy.hours', [], $lang).")\n";
-        $text .= "🖥️ <b>".__('messages.vacancy.format', [], $lang).":</b>\n {$vacancy->format}\n";
-        $text .= "📍 <b>".__('messages.vacancy.address', [], $lang).":</b>\n {$vacancy->address}\n";
-        $text .= "📍 <b>".__('messages.vacancy.telegram', [], $lang).":</b>\n @{$vacancy->telegramUser->username}\n\n";
+        $text .= "⏰ <b>".__('messages.vacancy.schedule', [], $lang).":</b> {$vacancy->schedule} ({$vacancy->work_hours} ". __('messages.vacancy.hours', [], $lang).")\n";
+        $text .= "🖥️ <b>".__('messages.vacancy.format', [], $lang).":</b> {$vacancy->format}\n";
+        $text .= "📍 <b>".__('messages.vacancy.address', [], $lang).":</b> {$vacancy->address}\n";
+        $text .= "📍 <b>".__('messages.vacancy.telegram', [], $lang).":</b> @{$vacancy->telegramUser->username}\n\n";
         $text .= "📋 <b>".__('messages.vacancy.responsibilities', [], $lang).":</b>\n{$vacancy->responsibilities}\n\n";
         $text .= "✅ <b>".__('messages.vacancy.requirements', [], $lang).":</b>\n{$vacancy->requirements}\n\n";
         $text .= "🎁 <b>".__('messages.vacancy.conditions', [], $lang).":</b>\n{$vacancy->conditions}\n{$vacancy->benefits}\n";
@@ -99,7 +100,7 @@ trait FormatForChannelTrait
                 chat_id: $model->telegramUser->user_id
             );
             // Публикуем в канал
-            $this->postToChannel($bot, $mode, $model, $lang);
+            $this->postToChannel($bot, $mode, $model);
             // Обновляем сообщение модерации
             $bot->editMessageText(
                 __('messages.moderation.approved_admin_notification', ['moderator' => $bot->user()->first_name], $lang),
@@ -120,9 +121,9 @@ trait FormatForChannelTrait
                 chat_id: $adminGroupId,
                 message_id: $messageId,
             );
-            $bot->answerCallbackQuery(
-                __('messages.moderation.rejection_reason_prompt_short', [], $lang)
-            );
+
         }
     }
+
+
 }

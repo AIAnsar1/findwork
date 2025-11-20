@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany};
 class Advertising extends Model
 {
     /** @use HasFactory<\Database\Factories\AdvertisingFactory> */
-    use HasFactory, QueryCacheable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -47,22 +47,6 @@ class Advertising extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
-
-    /**
-     * Specify the amount of time to cache queries.
-     * Do not specify or set it to null to disable caching.
-     *
-     * @var int|\DateTime
-     */
-    public $cacheFor = 3600; // cache time, in seconds
-
-    /**
-     * The cache driver to be used.
-     *
-     * @var string
-     */
-    public $cacheDriver = 'redis';
-
 
 
 

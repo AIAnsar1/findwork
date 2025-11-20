@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Resume extends Model
 {
     /** @use HasFactory<\Database\Factories\ResumeFactory> */
-    use HasFactory, QueryCacheable;
+    use HasFactory;
 
 
     /**
@@ -54,24 +54,11 @@ class Resume extends Model
         'last_posted_at' => 'datetime',
         'auto_posting' => 'boolean',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'  
+        'updated_at' => 'datetime'
     ];
 
 
-    /**
-     * Specify the amount of time to cache queries.
-     * Do not specify or set it to null to disable caching.
-     *
-     * @var int|\DateTime
-     */
-    public $cacheFor = 3600; // cache time, in seconds
 
-    /**
-     * The cache driver to be used.
-     *
-     * @var string
-     */
-    public $cacheDriver = 'redis';
 
     public function telegramUser(): BelongsTo
     {

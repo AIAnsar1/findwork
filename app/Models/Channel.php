@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, hasMany};
 
 class Channel extends Model
 {
-    use HasFactory, QueryCacheable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +19,7 @@ class Channel extends Model
     protected $fillable = [
         'title',
         'description',
-        'channel_id', 
+        'channel_id',
         'comments_enabled',
         'invite_link',
         'bot_is_admin',
@@ -42,27 +42,13 @@ class Channel extends Model
     ];
 
 
-    /**
-     * Specify the amount of time to cache queries.
-     * Do not specify or set it to null to disable caching.
-     *
-     * @var int|\DateTime
-     */
-    public $cacheFor = 3600; // cache time, in seconds
-
-    /**
-     * The cache driver to be used.
-     *
-     * @var string
-     */
-    public $cacheDriver = 'redis';
 
     public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class)->withTimestamps();;
     }
 
-    
+
     public function advertisings(): hasMany
     {
         return $this->hasMany(Advertising::class);

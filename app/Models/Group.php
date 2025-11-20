@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Group extends Model
 {
-    use HasFactory, QueryCacheable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +21,7 @@ class Group extends Model
     protected $fillable = [
         'title',
         'username',
-        'description', 
+        'description',
         'group_id',
         'anti_spam_mode',
         'auto_ban_user',
@@ -56,20 +56,6 @@ class Group extends Model
     ];
 
 
-    /**
-     * Specify the amount of time to cache queries.
-     * Do not specify or set it to null to disable caching.
-     *
-     * @var int|\DateTime
-     */
-    public $cacheFor = 3600; // cache time, in seconds
-
-    /**
-     * The cache driver to be used.
-     *
-     * @var string
-     */
-    public $cacheDriver = 'redis';
 
 
     public function channel(): HasOne
