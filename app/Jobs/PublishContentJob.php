@@ -36,7 +36,7 @@ class PublishContentJob implements ShouldQueue
     protected function publishQueueResume(Nutgram $bot)
     {
         $resumes = Resume::where('auto_posting', true)->where('status', 'active')->where(function ($query) {
-            $query->whereNull('last_posted_at')->orWhere('last_posted_at', '<', Carbon::now()->subMinutes(3));
+            $query->whereNull('last_posted_at')->orWhere('last_posted_at', '<', Carbon::now()->subHours(24));
         })->limit(5)->get();
         // $resumes = Resume::where('auto_posting', true)->limit(2)->get();
 
@@ -57,7 +57,7 @@ class PublishContentJob implements ShouldQueue
     protected function publishQueueVacancy(Nutgram $bot)
     {
         $vacancies = Vacancy::where('auto_posting', true)->where('status', 'open')->where(function ($query) {
-           $query->whereNull('last_posted_at')->orWhere('last_posted_at', '<', Carbon::now()->subMinutes(3));
+           $query->whereNull('last_posted_at')->orWhere('last_posted_at', '<', Carbon::now()->subHours(24));
         })->limit(5)->get();
 
         // $vacancies = Vacancy::where('auto_posting', true)->limit(2)->get();

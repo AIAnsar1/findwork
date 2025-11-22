@@ -26,7 +26,7 @@ trait FormatForChannelTrait
         $text .= "📈 <b>".__('messages.resume.experience', [], $lang).":</b> {$resume->experience_years} ". __('messages.resume.years', [], $lang)."\n";
         $text .= "🛠️ <b>".__('messages.resume.skills', [], $lang).":</b>\n {$resume->skills}\n";
         $text .= "📞 <b>".__('messages.resume.phone', [], $lang).":</b> {$resume->phone}\n";
-        $text .= "📞 <b>".__('messages.resume.telegram', [], $lang).":</b> @{$resume->telegramUser->username}\n\n";
+        $text .= "👤 <b>".__('messages.resume.telegram', [], $lang).":</b> @{$resume->telegramUser->username}\n\n";
         $text .= "📝 <b>".__('messages.resume.about', [], locale: $lang).":</b>\n {$resume->about}\n";
         $text .= "\n\n💼 <a href=\"https://t.me/HeadHuntuz\">HeadHunt Uz</a>";
 
@@ -39,13 +39,13 @@ trait FormatForChannelTrait
         $lang = $this->tgLang($bot);
 
         $text  = "<b>".__('messages.vacancy.title', [], $lang)." {$vacancy->position} " .__('messages.vacancy.in', [], $lang)." {$vacancy->company}</b>\n\n";
-        $text .= "💰 <b>".__('messages.vacancy.salary', [], $lang).":</b> {$vacancy->salary}$\n";
+        $text .= "💰 <b>".__('messages.vacancy.salary', [], $lang).":</b> {$vacancy->salary} $\n";
         $text .= "📈 <b>".__('messages.vacancy.experience', [], $lang).":</b> {$vacancy->experience}\n";
         $text .= "🗓️ <b>".__('messages.vacancy.employment', [], $lang).":</b> {$vacancy->employment}\n";
         $text .= "⏰ <b>".__('messages.vacancy.schedule', [], $lang).":</b> {$vacancy->schedule} ({$vacancy->work_hours} ". __('messages.vacancy.hours', [], $lang).")\n";
         $text .= "🖥️ <b>".__('messages.vacancy.format', [], $lang).":</b> {$vacancy->format}\n";
         $text .= "📍 <b>".__('messages.vacancy.address', [], $lang).":</b> {$vacancy->address}\n";
-        $text .= "📍 <b>".__('messages.vacancy.telegram', [], $lang).":</b> @{$vacancy->telegramUser->username}\n\n";
+        $text .= "👤 <b>".__('messages.vacancy.telegram', [], $lang).":</b> @{$vacancy->telegramUser->username}\n\n";
         $text .= "📋 <b>".__('messages.vacancy.responsibilities', [], $lang).":</b>\n{$vacancy->responsibilities}\n\n";
         $text .= "✅ <b>".__('messages.vacancy.requirements', [], $lang).":</b>\n{$vacancy->requirements}\n\n";
         $text .= "🎁 <b>".__('messages.vacancy.conditions', [], $lang).":</b>\n{$vacancy->conditions}\n{$vacancy->benefits}\n";

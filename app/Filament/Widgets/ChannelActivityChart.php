@@ -25,7 +25,7 @@ class ChannelActivityChart extends ApexChartWidget
      */
     protected function getOptions(): array
     {
-        $channels = Channel::dontCache()->select('title', 'members_count')->orderByDesc('members_count')->take(5)->pluck('members_count', 'title');
+        $channels = Channel::select('title', 'members_count')->orderByDesc('members_count')->take(5)->pluck('members_count', 'title');
 
         return [
             'chart' => ['type' => 'donut', 'height' => 350],

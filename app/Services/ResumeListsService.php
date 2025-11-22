@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services;
 
@@ -75,7 +75,7 @@ class ResumeListsService
         $resume->update(['auto_posting' => !$resume->auto_posting]);
         $this->showResumeDetails($bot, $resumeId, $messageId);
     }
-    
+
     public function showResumeList(Nutgram $bot, TelegramUser $user, int $messageId)
     {
         $lang = $this->tgLang($bot);
@@ -83,6 +83,7 @@ class ResumeListsService
 
         if ($resumes->isEmpty()) {
             $bot->answerCallbackQuery(__('messages.resume.no_resumes', [], $lang));
+            $bot->safeAnswerCallbackQuery();
             return;
         }
 
@@ -119,7 +120,7 @@ class ResumeListsService
                 $text .= "<b>{$label}:</b> {$resume->$field}\n";
             }
         }
-        
+
         $statusText = __('messages.statuses.' . $resume->status, [], $lang);
         $text .= "\n<b>" . __('messages.status', [], $lang) . ":</b> {$statusText}";
 

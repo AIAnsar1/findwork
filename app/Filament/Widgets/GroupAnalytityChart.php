@@ -26,7 +26,7 @@ class GroupAnalytityChart extends ApexChartWidget
      */
     protected function getOptions(): array
     {
-        $data = Channel::dontCache()->select(DB::raw('DATE(last_synced_at) as date'), DB::raw('SUM(members_count) as total_members'), DB::raw('COUNT(*) as total_channels'))->groupBy('date')->orderBy('date')->get();
+        $data = Channel::select(DB::raw('DATE(last_synced_at) as date'), DB::raw('SUM(members_count) as total_members'), DB::raw('COUNT(*) as total_channels'))->groupBy('date')->orderBy('date')->get();
 
         return [
             'chart' => [
